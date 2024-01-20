@@ -15,6 +15,13 @@ const movieCreditsEndpoint = (id: string) =>
 const similarMovieEndpoint = (id: string) =>
   `${apiBaseUrl}/movie/${id}/similar?api_key=${movieApiKey}`
 
+const personDetailsEndpoint = (id: string) =>
+  `${apiBaseUrl}/person/${id}?api_key=${movieApiKey}`
+const personMoviesEndpoint = (id: string) =>
+  `${apiBaseUrl}/person/${id}/movie_credits?api_key=${movieApiKey}`
+
+const searchMoviesEndpoint = `${apiBaseUrl}/search/movie?api_key=${movieApiKey}`
+
 export const fallbackMoviePoster =
   'https://img.myloview.com/stickers/white-laptop-screen-with-hd-video-technology-icon-isolated-on-grey-background-abstract-circle-random-dots-vector-illustration-400-176057922.jpg'
 export const fallbackPersonImage =
@@ -27,11 +34,11 @@ export const image342 = (path: string): any =>
 export const image185 = (path: string): any =>
   path ? `https://image.tmdb.org/t/p/w185${path}` : null
 
-const apiCall = async (endpoint: string) => {
+const apiCall = async (endpoint: string, params: string = '') => {
   const options = {
     method: 'GET',
     url: endpoint,
-    // params: params || {},
+    params: params || {},
   }
   try {
     const response = await axios.request(options)
@@ -60,4 +67,16 @@ export const fetchMovieCredits = (id: string) => {
 }
 export const fetchSimilarMovie = (id: string) => {
   return apiCall(similarMovieEndpoint(id))
+}
+
+export const fetchPersonDetails = (id: string) => {
+  return apiCall(personDetailsEndpoint(id))
+}
+export const fetchPersonMovies = (id: string) => {
+  return apiCall(personMoviesEndpoint(id))
+}
+
+
+export const searchMovies = (params: any) => {
+  return apiCall(searchMoviesEndpoint, params)
 }

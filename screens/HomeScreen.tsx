@@ -19,32 +19,12 @@ import MovieList from '../components/MovieList'
 import { ios } from '../constants'
 import { useNavigation } from '@react-navigation/native'
 import Loading from '../components/Loading'
-import { fetchTopRatedMovies, fetchTrendingMovies, fetchUpcomingMovies } from '../api/moviedb'
+import { useMovies } from '../hooks/useMovies'
 
 const HomeScreen = () => {
-  const [trending, setTrending] = useState([1, 2, 3])
-  const [upcoming, setUpcoming] = useState([1, 2, 3])
-  const [topRated, setTopRated] = useState([1, 2, 3])
-  const [loading, setLoading] = useState(false)
   const navigation: any = useNavigation()
-  const getTrendingMovies = async () => {
-    const data = await fetchTrendingMovies()
-    if (data && data.results) setTrending(data.results)
-    setLoading(false)
-  }
-  const getUpcomingMovies = async () => {
-    const data = await fetchUpcomingMovies()
-    if (data && data.results) setUpcoming(data.results)
-  }
-  const getTopRatedMovies = async () => {
-    const data = await fetchTopRatedMovies()
-    if (data && data.results) setTopRated(data.results)
-  }
-  useEffect(() => {
-    getTrendingMovies()
-    getUpcomingMovies()
-    getTopRatedMovies()
-  }, [])
+  const { loading, trending, topRated, upcoming } = useMovies()
+
   return (
     <View className="flex-1 bg-neutral-800 pt-4">
       <SafeAreaView className={clsx(ios ? 'mb-2' : 'mb-3')}>

@@ -1,34 +1,22 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import React, { useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ChevronLeftIcon } from 'react-native-heroicons/outline'
 import { HeartIcon } from 'react-native-heroicons/solid'
 import { styles, theme } from '../theme'
-import { height, movieName, topMargin, width } from '../constants'
+import { height, topMargin, width } from '../constants'
 import { LinearGradient } from 'expo-linear-gradient'
 import Cast from '../components/Cast'
 import MovieList from '../components/MovieList'
 import Loading from '../components/Loading'
-import { fetchMovieDetails, image500 } from '../api/moviedb'
+import { fallbackMoviePoster, image500 } from '../api/moviedb'
+import { useMovie } from '../hooks/useMovie'
 
 const MovieScreen = () => {
-  const { params: item } = useRoute<any>()
   const navigation = useNavigation()
   const [isFavorite, setIsFavorite] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [cast, setCast] = useState([1, 2, 3, 4, 5])
-  const [movie, setMovie] = useState<any>([])
-  const [similarMovies, setSimilarMovies] = useState([1, 2, 3, 4, 5])
-  const getMovieDetails = async (id: any) => {
-    const data = await fetchMovieDetails(id)
-    if (data) setMovie(data)
-    setLoading(false)
-  }
-  useEffect(() => {
-    setLoading(true)
-    getMovieDetails(item?.id)
-  }, [item])
+  const { loading, cast, movie, similarMovies } = useMovie()
   return (
     <ScrollView
       contentContainerStyle={{ paddingBottom: 20 }}
@@ -62,7 +50,9 @@ const MovieScreen = () => {
         ) : (
           <View>
             <Image
-              source={{ uri: image500(movie?.poster_path) }}
+              source={{
+                uri: image500(movie?.poster_path) || fallbackMoviePoster,
+              }}
               style={{ width: width, height: height * 0.55 }}
             />
             <LinearGradient
@@ -79,34 +69,37 @@ const MovieScreen = () => {
         <Text className="text-white text-center text-3xl font-bold tracking-wider px-7">
           {movie?.title}
         </Text>
-        <Text className="text-neutral-400 font-semibold text-base text-center">
-          {movie?.status} . {movie?.release_date?.split('-')[0]} .{' '}
-          {movie?.runtime} min
-        </Text>
-        <View className="flex-row justify-center mx-4 space-x-2">
+        {movie?.id ? (
           <Text className="text-neutral-400 font-semibold text-base text-center">
-            Action .
+            {movie?.status} . {movie?.release_date?.split('-')[0]} .
+            {movie?.runtime} min
           </Text>
-          <Text className="text-neutral-400 font-semibold text-base text-center">
-            Thrill .
-          </Text>
-          <Text className="text-neutral-400 font-semibold text-base text-center">
-            Comedy .
-          </Text>
+        ) : null}
+
+        <View className="flex-row justify-center mx-5 space-x-2">
+          {movie?.genres?.map((genre: { name: string }, index: number) => {
+            const showDot = index + 1 !== movie.genres.length
+            return (
+              <Text
+                key={index}
+                className="text-neutral-400 font-semibold text-base text-center">
+                {genre?.name} {showDot && '.'}
+              </Text>
+            )
+          })}
         </View>
         <Text className="text-neutral-400 mx-4 tracking-wide">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus,
-          excepturi corrupti rem nobis fugit accusantium veniam quis nisi, vero
-          consequuntur praesentium. Fugit expedita quibusdam temporibus enim
-          doloremque saepe consequatur quia.
+          {movie?.overview}
         </Text>
       </View>
-      <Cast cast={cast} />
-      <MovieList
-        title="Similar Movies"
-        hideSeeAll={true}
-        data={similarMovies}
-      />
+      {cast.length > 0 && <Cast cast={cast} />}
+      {similarMovies.length > 0 && (
+        <MovieList
+          title="Similar Movies"
+          hideSeeAll={true}
+          data={similarMovies}
+        />
+      )}
     </ScrollView>
   )
 }
