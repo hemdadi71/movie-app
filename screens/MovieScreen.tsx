@@ -53,14 +53,14 @@ const MovieScreen = () => {
               source={{
                 uri: image500(movie?.poster_path) || fallbackMoviePoster,
               }}
-              style={{ width: width, height: height * 0.55 }}
+              style={{ width: width, height: height * 0.8 }}
             />
             <LinearGradient
+              className="absolute bottom-0"
               colors={['transparent', 'rgba(23,23,23,0.9)', 'rgba(23,23,23,1)']}
               style={{ width, height: height * 0.4 }}
               start={{ x: 0.5, y: 0 }}
               end={{ x: 0.5, y: 1 }}
-              className="absolute bottom-0"
             />
           </View>
         )}

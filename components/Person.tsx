@@ -15,7 +15,7 @@ const Person = ({ person, personMovies }: any) => {
           shadowOffset: { width: 0, height: 5 },
           shadowOpacity: 1,
         }}>
-        <View className="items-center rounded-full overflow-hidden h-72 w-72 border border-neutral-500">
+        <View className="flex items-center rounded-full overflow-hidden h-72 w-72 border border-neutral-500">
           <Image
             source={{
               uri: image342(person?.profile_path) || fallbackPersonImage,
