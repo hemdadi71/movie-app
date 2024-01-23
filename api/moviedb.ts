@@ -3,10 +3,15 @@ import axios from 'axios'
 const movieApiKey = 'c5792510b6532f375819942e4a80e138'
 
 const apiBaseUrl = 'https://api.themoviedb.org/3'
+function getRandomPage(max: number, min: number = 1) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+const trendingPage = getRandomPage(4)
+const page = getRandomPage(51)
 
-const trendingMoviesEndpoint = `${apiBaseUrl}/trending/movie/day?api_key=${movieApiKey}`
-const upcomingMoviesEndpoint = `${apiBaseUrl}/movie/upcoming?api_key=${movieApiKey}`
-const topRatedMovieEndpoint = `${apiBaseUrl}/movie/top_rated?api_key=${movieApiKey}`
+const trendingMoviesEndpoint = `${apiBaseUrl}/trending/movie/day?api_key=${movieApiKey}&page=${trendingPage}`
+const upcomingMoviesEndpoint = `${apiBaseUrl}/movie/upcoming?api_key=${movieApiKey}&page=${page}`
+const topRatedMovieEndpoint = `${apiBaseUrl}/movie/top_rated?api_key=${movieApiKey}&page=${page}`
 
 const movieDetailsEndpoint = (id: string) =>
   `${apiBaseUrl}/movie/${id}?api_key=${movieApiKey}`
@@ -52,11 +57,12 @@ const apiCall = async (endpoint: string, params: string = '') => {
 export const fetchTrendingMovies = () => {
   return apiCall(trendingMoviesEndpoint)
 }
-export const fetchUpcomingMovies = () => {
-  return apiCall(upcomingMoviesEndpoint)
+export const fetchUpcomingMovies = (params: any = '') => {
+  return apiCall(upcomingMoviesEndpoint, params)
 }
-export const fetchTopRatedMovies = () => {
-  return apiCall(topRatedMovieEndpoint)
+
+export const fetchTopRatedMovies = (params: any = '') => {
+  return apiCall(topRatedMovieEndpoint, params)
 }
 
 export const fetchMovieDetails = (id: string) => {
@@ -75,7 +81,6 @@ export const fetchPersonDetails = (id: string) => {
 export const fetchPersonMovies = (id: string) => {
   return apiCall(personMoviesEndpoint(id))
 }
-
 
 export const searchMovies = (params: any) => {
   return apiCall(searchMoviesEndpoint, params)

@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ChevronLeftIcon } from 'react-native-heroicons/outline'
-import { HeartIcon } from 'react-native-heroicons/solid'
 import { styles, theme } from '../theme'
 import { height, topMargin, width } from '../constants'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -35,13 +34,6 @@ const MovieScreen = () => {
               size="32"
               strokeWidth={2.5}
               color="white"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <HeartIcon
-              onPress={() => setIsFavorite(!isFavorite)}
-              size="35"
-              color={isFavorite ? theme.background : 'white'}
             />
           </TouchableOpacity>
         </SafeAreaView>

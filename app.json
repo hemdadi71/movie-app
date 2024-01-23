@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "Movie-app",
-    "slug": "Movie-app",
-    "version": "1.0.0",
+    "name": "Movie",
+    "slug": "Movie",
+    "version": "1.0.4",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/movie-app.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/movie-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,7 +19,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/movie-app.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.hemdadi71.Movieapp"
@@ -29,7 +29,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "0ae7ca3b-b5cf-4583-9bc1-2ab0fc6a5d94"
+        "projectId": "f8c3f225-007d-4051-8583-0141ec52166b"
       }
     }
   }

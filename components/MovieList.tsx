@@ -25,7 +25,12 @@ const MovieList: React.FC<MovieListProps> = ({ title, data, hideSeeAll }) => {
       <View className="mx-4 flex-row justify-between items-center">
         <Text className="text-white text-xl">{title}</Text>
         {!hideSeeAll && (
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              title === 'Upcoming'
+                ? navigation.push('Upcoming')
+                : navigation.push('TopRated')
+            }}>
             <Text style={styles.text} className="text-lg">
               See All
             </Text>
